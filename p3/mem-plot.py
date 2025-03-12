@@ -27,7 +27,7 @@ def plot_graphs(xs, ys, ts, name):
         colors = ["red" if t == "R" else "blue" if t == "W" else "green" for t in ts[i]]
         plt.scatter(xs[i], ys[i], c=colors)
         plt.plot(xs[i], ys[i], color="black", linewidth=0.5)
-        plt.title(phases[i])
+        plt.title(phases[i] + " (" + name + ")")
         plt.xlabel("Memory Access")
         plt.ylabel("Memory Address")
         plt.scatter([], [], c="red", label="Read")

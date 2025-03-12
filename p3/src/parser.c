@@ -12,10 +12,12 @@ Params parse_arguments(int argc, char **argv) {
   p.output_file_name = NULL;
   p.struct_name = NULL;
   p.mem_file_name = NULL;
+  p.usage_file_name = NULL;
   p.input_size = 0;
   p.use_logger = 0;
+  p.use_proc_usage = 0;
 
-  while ((opt = getopt(argc, argv, "i:o:t:s:m:l")) != -1) {
+  while ((opt = getopt(argc, argv, "i:o:t:s:m:u:lp")) != -1) {
     switch (opt) {
     case 'i':
       p.input_file_name = optarg;
@@ -36,8 +38,16 @@ Params parse_arguments(int argc, char **argv) {
         p.mem_file_name = optarg;
       }
       break;
+    case 'u':
+      if (optarg) {
+        p.usage_file_name = optarg;
+      }
+      break;
     case 'l':
       p.use_logger = 1;
+      break;
+    case 'p':
+      p.use_proc_usage = 1;
       break;
     default:
       break;

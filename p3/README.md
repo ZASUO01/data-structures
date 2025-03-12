@@ -56,15 +56,45 @@ cost O(1). The hash table is not naturaly ordered. All the elements must be copi
 complexity is limited by the quick sort complexity both for normal and worst cases.
 
 ## Memory Access
+ With the output files of the execution it's possible to plot the following graphs:
 
 <p align="center">
     <img src="assets/tree-1.png" alt="tree 1" width="45%"/>
     <img src="assets/hash-1.png" alt="hash 1" width="45%"/>
 </p>
+<p align="center">
+    <img src="assets/tree-2.png" alt="tree 2" width="45%"/>
+    <img src="assets/hash-2.png" alt="hash 2" width="45%"/>
+</p>
+<p align="center">
+    <img src="assets/tree-3.png" alt="tree 3" width="45%"/>
+    <img src="assets/hash-3.png" alt="hash 3" width="45%"/>
+</p>
+
+It's possible to see that the hash table is better in terms of memory access as it's almost linear 
+if the collisions are not considered. The tree does a lot more jumps when the balance function is called.
+Both structures needs to go to a far address when an already inserted word appears.
+
+The tree shows a better printing function. When sorted the hash list shows a similar behavior other than the 
+extra cost to copy the original list.
+
+The hash is better at the deletion function as the tree spend an access to copy the value from one
+node to another in the case of delete node have 2 child.
+
 
 ## Process Usage
 
+The following graph shows the comparison between the proccess usage time. The values shown are 
+mean of 6 executions.
+
+[![Process Time](./assets/usage.png)
+
+The tree implementation was a little bit more faster.
+
 ## Conlusion
+Both implementations are adequate for this propsed task. In the situation that the order of the
+elements is important, the tree is better. But the constant balancing of the tree is offten worse 
+than the possible collisions in the hash table, so it depends on the input format.
 
 ## How To Execute
 

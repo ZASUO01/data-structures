@@ -33,10 +33,26 @@ memory: $(OUT)
 	$(TARGET) -i short_input.txt -o $(OUT)/short-tree.txt -t tree -l -m $(OUT)/mem-tree.txt
 	$(TARGET) -i short_input.txt -o $(OUT)/short-hash.txt -t hash -s 50 -l -m $(OUT)/mem-hash.txt
 
+usage: $(OUT)
+	$(TARGET) -i input.txt -o $(OUT)/tree.txt -t tree -p -u $(OUT)/usage-tree.txt
+	$(TARGET) -i input.txt -o $(OUT)/hash.txt -t hash -s 5000 -p -u $(OUT)/usage-hash.txt
+	$(TARGET) -i input.txt -o $(OUT)/tree.txt -t tree -p -u $(OUT)/usage-tree.txt
+	$(TARGET) -i input.txt -o $(OUT)/hash.txt -t hash -s 5000 -p -u $(OUT)/usage-hash.txt
+	$(TARGET) -i input.txt -o $(OUT)/tree.txt -t tree -p -u $(OUT)/usage-tree.txt
+	$(TARGET) -i input.txt -o $(OUT)/hash.txt -t hash -s 5000 -p -u $(OUT)/usage-hash.txt
+	$(TARGET) -i input.txt -o $(OUT)/tree.txt -t tree -p -u $(OUT)/usage-tree.txt
+	$(TARGET) -i input.txt -o $(OUT)/hash.txt -t hash -s 5000 -p -u $(OUT)/usage-hash.txt
+	$(TARGET) -i input.txt -o $(OUT)/tree.txt -t tree -p -u $(OUT)/usage-tree.txt
+	$(TARGET) -i input.txt -o $(OUT)/hash.txt -t hash -s 5000 -p -u $(OUT)/usage-hash.txt
+	$(TARGET) -i input.txt -o $(OUT)/tree.txt -t tree -p -u $(OUT)/usage-tree.txt
+	$(TARGET) -i input.txt -o $(OUT)/hash.txt -t hash -s 5000 -p -u $(OUT)/usage-hash.txt
+
+
 plot:
 	rm -rf images
 	mkdir -p images
 	python3 mem-plot.py
+	python3 usage-plot.py
 
 clean: 
 	rm -rf $(BIN) $(OBJ) $(OUT) $(IMG)

@@ -3,6 +3,8 @@
 #include "hash-table.h"
 #include "memory-log.h"
 #include "parser.h"
+#include "usage.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -43,6 +45,14 @@ int main(int argc, char **argv) {
     error_assert((params.mem_file_name != NULL), "Missing log file.");
     init_memory_log(params.mem_file_name);
     set_next_log_phase();
+  }
+
+  double start_time;
+
+  // process usage
+  if (params.use_proc_usage) {
+    struct rusage start_usage = set_usage();
+    start_time = get_proc_time(&start_usage);
   }
 
   if (strcmp(params.struct_name, "tree") == 0) {
@@ -181,6 +191,24 @@ int main(int argc, char **argv) {
 
   closed = fclose(output_file);
   error_assert((closed == 0), "Failed to close the output file");
+
+  // process usage
+  if (params.use_proc_usage) {
+    error_assert((params.usage_file_name != NULL), "Missing usage file.");
+
+    struct rusage end_usage = set_usage();
+    double end_time = get_proc_time(&end_usage);
+
+    double total_time = end_time - start_time;
+
+    FILE *usage_file = fopen(params.usage_file_name, "a");
+    error_assert((usage_file != NULL), "Failed to open usage file");
+
+    fprintf(usage_file, "%f\n", total_time);
+
+    closed = fclose(usage_file);
+    error_assert((closed == 0), "Failed to close the usge file");
+  }
 
   return 0;
 }
