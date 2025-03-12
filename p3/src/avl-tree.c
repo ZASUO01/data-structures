@@ -1,5 +1,6 @@
 #include "avl-tree.h"
 #include "error-assert.h"
+#include "memory-log.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -76,23 +77,37 @@ static Node *balance_node(Node *node) {
 
   // case 1 - left left
   if (balance > 1 && balance_factor(node->left) >= 0) {
+    // register memory access
+    PRINT_LOG((long int)(node), sizeof(Node), 0, WRITE);
+
     return rotate_right(node);
   }
 
   // case 2 - right right
   if (balance < -1 && balance_factor(node->right) <= 0) {
+    // register memory access
+    PRINT_LOG((long int)(node), sizeof(Node), 0, WRITE);
+
     return rotate_left(node);
   }
 
   // case 3 - left right
   if (balance > 1 && balance_factor(node->left) < 0) {
     node->left = rotate_left(node->left);
+
+    // register memory access
+    PRINT_LOG((long int)(node), sizeof(Node), 0, WRITE);
+
     return rotate_right(node);
   }
 
   // case 4 - right left
   if (balance < -1 && balance_factor(node->right) > 0) {
     node->right = rotate_right(node->right);
+
+    // register memory access
+    PRINT_LOG((long int)(node), sizeof(Node), 0, WRITE);
+
     return rotate_left(node);
   }
 
@@ -106,7 +121,12 @@ Node *insert_node(Node *node, char type, const char *word,
   if (node == NULL) {
     Entry *entry = create_entry(type, word);
     add_meaning(entry, meaning);
-    return create_node(entry);
+    Node *new = create_node(entry);
+
+    // register the memory access
+    PRINT_LOG((long int)(new), sizeof(Node), 0, WRITE);
+
+    return new;
   }
 
   // compare the target word with the node word
@@ -123,6 +143,9 @@ Node *insert_node(Node *node, char type, const char *word,
     // the word is already added
     // only add the meaning if the target type is equal the node type
     if (type == node->entry->type) {
+      // register memory access
+      PRINT_LOG((long int)(node), sizeof(Node), 0, READ);
+
       add_meaning(node->entry, meaning);
       return node;
     }
@@ -138,6 +161,9 @@ Node *insert_node(Node *node, char type, const char *word,
 
 // aux function to free a node pointer
 static void _delete_node(Node **node) {
+  // register memory access
+  PRINT_LOG((long int)(*node), sizeof(node), 0, WRITE);
+
   delete_entry(&(*node)->entry);
   free(*node);
   *node = NULL;
@@ -186,6 +212,10 @@ static Node *delete_node(Node *node, char type, const char *word) {
         // case 2 -  both child
       } else {
         tmp = min_value_node(node->right);
+
+        // register memory access
+        PRINT_LOG((long int)(tmp), sizeof(Node), 0, READ)
+
         delete_entry(&node->entry);
         node->entry = copy_entry(tmp->entry);
         node->right =
@@ -220,11 +250,15 @@ Node *delete_not_empty(Node *node) {
 }
 
 // traverse the tree in order and call print each node entry
-void print_tree(Node *node) {
+void fprint_tree(Node *node, FILE *file) {
   if (node != NULL) {
-    print_tree(node->left);
-    print_entry(node->entry);
-    print_tree(node->right);
+    fprint_tree(node->left, file);
+
+    // register memory access
+    PRINT_LOG((long int)(node), sizeof(Node), 0, READ);
+    fprint_entry(node->entry, file);
+
+    fprint_tree(node->right, file);
   }
 }
 
@@ -233,6 +267,9 @@ void delete_tree(Node **node) {
   if (*node != NULL) {
     delete_tree(&(*node)->left);
     delete_tree(&(*node)->right);
+
+    // register memory access
+    PRINT_LOG((long int)(*node), sizeof(Node), 0, WRITE);
     delete_entry(&(*node)->entry);
     free(*node);
     *node = NULL;

@@ -9,26 +9,6 @@ insertions, deletions, ordered printing, and updating of an entry.
 The goal was to compare two typical implementations: one based on a balanced 
 search tree and another based on hashing with linked lists. 
 
-## Complexity
-
-The following is the complexity of the main functions of each dictionary implementation.
-
-| Operation          | AVL Tree             | Hash Table           |
-|-------------------|----------------------|----------------------|
-| **Insertion**      | O(log n)             | O(1) (average), O(n) (worst case) |
-| **Deletion**       | O(log n)             | O(1) (average), O(n) (worst case) |
-| **Query**         | O(log n)             | O(1) (average), O(n) (worst case) |
-| **Print in Order** | O(n)                | O(n log n) (average), O(n²) (worst case)|
-
-The tree structure ensure that the insetion, deletion and query operations have the complexity O(log n).
-The balancing and update after delete operations uses pointers manipulation which have a constant complexity.
-This structure is naturaly ordered so to print all n elements it's O(n).
-
-The eficiency of the insertion, deletion and query operations in the Hash Table depends on the collision rate.
-In the worst case all elements are mapped to the same index which costs O(n). Normaly it's just an array index acces which
-cost O(1). The hash table is not naturaly ordered. All the elements must be copied to a list and be ordered. This operation 
-complexity is limited by the quick sort complexity both for normal and worst cases.
-
 ## Input
 
 The program input is a file containing words and its meanings. Each file line has the following
@@ -55,8 +35,36 @@ bad (a)
 
 Next, it should print in the same way, all the elements that have no meaning.
 
+## Complexity
+
+The following is the complexity of the main functions of each dictionary implementation.
+
+| Operation          | AVL Tree             | Hash Table           |
+|-------------------|----------------------|----------------------|
+| **Insertion**      | O(log n)             | O(1) (average), O(n) (worst case) |
+| **Deletion**       | O(log n)             | O(1) (average), O(n) (worst case) |
+| **Query**         | O(log n)             | O(1) (average), O(n) (worst case) |
+| **Print in Order** | O(n)                | O(n log n) (average), O(n²) (worst case)|
+
+The tree structure ensure that the insetion, deletion and query operations have the complexity O(log n).
+The balancing and update after delete operations uses pointers manipulation which have a constant complexity.
+This structure is naturaly ordered so to print all n elements it's O(n).
+
+The eficiency of the insertion, deletion and query operations in the Hash Table depends on the collision rate.
+In the worst case all elements are mapped to the same index which costs O(n). Normaly it's just an array index acces which
+cost O(1). The hash table is not naturaly ordered. All the elements must be copied to a list and be ordered. This operation 
+complexity is limited by the quick sort complexity both for normal and worst cases.
 
 ## Memory Access
+
+<p align="center">
+    <img src="assets/tree-1.png" alt="tree 1" width="45%"/>
+    <img src="assets/hash-1.png" alt="hash 1" width="45%"/>
+</p>
+
+## Process Usage
+
+## Conlusion
 
 ## How To Execute
 
@@ -64,19 +72,23 @@ Next, it should print in the same way, all the elements that have no meaning.
 ```sh
 make
 ```
-- 2 Execute with tree implementation.
+- 2 Execute the program and get the output files for both implementations.
 ```sh
-make tree
+make run
 ```
-- 3 Execute with hash implementation.
+- 3 Execute the program and get memory access logs.
 ```sh
-make hash
+make memory
 ```
-- 4 Plot vizualization.
+- 4 Execute the program and get process usage info.
+```sh
+make usage
+```
+- 5 Plot graphs.
 ```sh
 make plot
 ```
-- 5 Clean for another execution.
+- 6 Clean the project for another execution.
 ```sh
 make clean
 ```

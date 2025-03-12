@@ -1,0 +1,19 @@
+n [car] an automobile
+n [music]
+v [play] to take part in an enjoyable activity
+a [bright]
+v [jump]
+n [ocean]
+a [soft]
+n [car] a vehile
+v [write] to put words on paper
+a [cold] having a low temperature
+n [music] a form of art using sound
+v [play] to engage in an activity
+a [happy] feeling pleasure
+n [chair] a seat with a back
+n [river]
+v [think] to use the mind
+n [dog] a domesticated animal
+n [cat]
+v [draw] to create images with a pencil

@@ -55,11 +55,11 @@ Entry *copy_entry(Entry *src) {
 }
 
 // print the entry values and meanings in insert order
-void print_entry(Entry *entry) {
-  printf("%s (%c)\n", entry->word, entry->type);
+void fprint_entry(Entry *entry, FILE *file) {
+  fprintf(file, "%s (%c)\n", entry->word, entry->type);
 
   for (int i = 0; i < entry->meanings_size; i++) {
-    printf("%d. %s\n", i + 1, entry->meanings[i]);
+    fprintf(file, "%d. %s\n", i + 1, entry->meanings[i]);
   }
 }
 

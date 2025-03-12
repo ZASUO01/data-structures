@@ -1,11 +1,12 @@
 CC = gcc 
 CFLAGS = -Wall -Wextra -Iinclude
-LDFLAGS = -lm -g
+LDFLAGS = -g -lm
 
 BIN = bin
 SRC = src
 OBJ = obj
 OUT = output
+IMG = images
 
 SRCS = $(wildcard $(SRC)/*.c)
 OBJS = $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS)) 
@@ -20,14 +21,22 @@ $(TARGET): $(OBJS) | $(BIN)
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BIN) $(OBJ) $(OUT):
+$(BIN) $(OBJ) $(OUT): 
+	rm -rf $@	
 	mkdir -p $@
 
-tree: ${OUT} 
+run: $(OUT)
 	$(TARGET) -i input.txt -o $(OUT)/tree.txt -t tree
-
-hash:
 	$(TARGET) -i input.txt -o $(OUT)/hash.txt -t hash -s 5000
 
-clean:
-	rm -rf $(BIN) $(OBJ) $(OUT)
+memory: $(OUT)
+	$(TARGET) -i short_input.txt -o $(OUT)/short-tree.txt -t tree -l -m $(OUT)/mem-tree.txt
+	$(TARGET) -i short_input.txt -o $(OUT)/short-hash.txt -t hash -s 50 -l -m $(OUT)/mem-hash.txt
+
+plot:
+	rm -rf images
+	mkdir -p images
+	python3 mem-plot.py
+
+clean: 
+	rm -rf $(BIN) $(OBJ) $(OUT) $(IMG)

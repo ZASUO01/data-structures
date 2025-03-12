@@ -1,7 +1,6 @@
 #include "hash-table.h"
-#include "entry.h"
 #include "error-assert.h"
-#include "stdio.h"
+#include "memory-log.h"
 #include "stdlib.h"
 #include <string.h>
 
@@ -54,6 +53,9 @@ void insert_list_node(ListNode **hash_table, int hash_size, char type,
     // if the word and type are found, then just add the new meaning
     if (strcmp(word, current->entry->word) == 0 &&
         type == current->entry->type) {
+      // register memory access
+      PRINT_LOG((long int)(current), sizeof(ListNode), 0, READ);
+
       add_meaning(current->entry, meaning);
       return;
     }
@@ -67,6 +69,9 @@ void insert_list_node(ListNode **hash_table, int hash_size, char type,
 
   current->next = hash_table[index];
   hash_table[index] = current;
+
+  // record the memory writing
+  PRINT_LOG((long int)(current), sizeof(ListNode *), 0, WRITE);
 }
 
 // returns a single list with the copy of all elements in the hash table
@@ -103,6 +108,11 @@ static ListNode **get_full_list(ListNode **hash_table, int hash_size,
       }
 
       full_list[nodes_num++] = create_list_node(entry);
+
+      // register memory access
+      PRINT_LOG((long int)(full_list[nodes_num - 1]), sizeof(ListNode), 0,
+                WRITE);
+
       current = current->next;
     }
   }
@@ -124,7 +134,7 @@ static int compare(const void *a, const void *b) {
 }
 
 // print all elements in alfabetical order
-void print_hash_table(ListNode **hash_table, int hash_size) {
+void fprint_hash_table(ListNode **hash_table, int hash_size, FILE *file) {
   int list_size;
 
   // get a single list with all the hash table elements
@@ -135,7 +145,10 @@ void print_hash_table(ListNode **hash_table, int hash_size) {
 
   // print and clean the elements
   for (int i = 0; i < list_size; i++) {
-    print_entry(full_list[i]->entry);
+    // register memory access
+    PRINT_LOG((long int)(full_list[i]), sizeof(ListNode), 0, READ);
+
+    fprint_entry(full_list[i]->entry, file);
     delete_entry(&full_list[i]->entry);
     free(full_list[i]);
   }
@@ -167,6 +180,9 @@ void delete_not_empty_hash(ListNode **hash_table, int hash_size) {
         // move the pointer to the next
         current = current->next;
 
+        // register memory access
+        PRINT_LOG((long int)(target), sizeof(ListNode), 0, WRITE);
+
         // delete the current
         delete_entry(&target->entry);
         free(target);
@@ -189,6 +205,8 @@ void delete_hash_table(ListNode **hash_table, int hash_size) {
     while (current != NULL) {
       next = current->next;
 
+      // register memory access
+      PRINT_LOG((long int)(current), sizeof(ListNode), 0, WRITE);
       delete_entry(&current->entry);
       free(current);
 

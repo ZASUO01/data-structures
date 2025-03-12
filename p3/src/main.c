@@ -1,6 +1,7 @@
 #include "avl-tree.h"
 #include "error-assert.h"
 #include "hash-table.h"
+#include "memory-log.h"
 #include "parser.h"
 #include <stdlib.h>
 #include <string.h>
@@ -22,11 +23,11 @@ int main(int argc, char **argv) {
   Params params = parse_arguments(argc, argv);
 
   // input file
-  FILE *input_file = fopen(params.input_file, "r");
+  FILE *input_file = fopen(params.input_file_name, "r");
   error_assert((input_file != NULL), "Failed to open input file");
 
   // output file
-  FILE *output_file = fopen(params.output_file, "w");
+  FILE *output_file = fopen(params.output_file_name, "w");
   error_assert((output_file != NULL), "Failed to open output file");
 
   // line values
@@ -36,6 +37,13 @@ int main(int argc, char **argv) {
   char type;
   char *word = NULL;
   char *meaning = NULL;
+
+  // logger usage
+  if (params.use_logger) {
+    error_assert((params.mem_file_name != NULL), "Missing log file.");
+    init_memory_log(params.mem_file_name);
+    set_next_log_phase();
+  }
 
   if (strcmp(params.struct_name, "tree") == 0) {
     // init tree root
@@ -59,21 +67,43 @@ int main(int argc, char **argv) {
           meaning = strdup(tmp_meaning);
         }
 
+        // insert the values into the tree
         tree = insert_node(tree, type, word, meaning);
+
+        // reset variables
+        word = NULL;
+        meaning = NULL;
       }
     }
 
+    // next operation
+    set_next_log_phase();
+
     // print all entries
-    print_tree(tree);
+    fprintf(output_file, "AVL Tree: All Entries\n");
+    fprintf(output_file, "\n");
+    fprint_tree(tree, output_file);
+
+    // next operation
+    set_next_log_phase();
 
     // delete all entries with at least one meaning
     tree = delete_not_empty(tree);
 
+    // next operation
+    set_next_log_phase();
+
     // print all etries without meanings
-    print_tree(tree);
+    fprintf(output_file, "AVL Tree: Entries Without Meaning\n");
+    fprintf(output_file, "\n");
+    fprint_tree(tree, output_file);
+
+    // next operation
+    set_next_log_phase();
 
     // free all the tree nodes
     delete_tree(&tree);
+
   } else if (strcmp(params.struct_name, "hash") == 0) {
     // get hash size based on input size
     int hash_size = get_hash_size(params.input_size);
@@ -102,24 +132,55 @@ int main(int argc, char **argv) {
           meaning = strdup(tmp_meaning);
         }
 
+        // insert the values into the hash table
         insert_list_node(hash_table, hash_size, type, word, meaning);
+
+        // reset variables
+        word = NULL;
+        meaning = NULL;
       }
     }
+
+    // next operation
+    set_next_log_phase();
+
     // print all entries
-    print_hash_table(hash_table, hash_size);
+    fprintf(output_file, "Hash Table: All Entries\n");
+    fprintf(output_file, "\n");
+    fprint_hash_table(hash_table, hash_size, output_file);
+
+    // next operation
+    set_next_log_phase();
 
     // delete all entries with at least one meaning
     delete_not_empty_hash(hash_table, hash_size);
 
+    // next operation
+    set_next_log_phase();
+
     // print all etries without meanings
-    print_hash_table(hash_table, hash_size);
+    fprintf(output_file, "Hash Table: Entries Without Meaning\n");
+    fprintf(output_file, "\n");
+    fprint_hash_table(hash_table, hash_size, output_file);
+
+    // next operation
+    set_next_log_phase();
 
     // free all the hash elements
     delete_hash_table(hash_table, hash_size);
   }
 
+  // finish logger
+  if (params.use_logger) {
+    finish_memory_log();
+  }
+
   // close opened files
-  fclose(input_file);
-  fclose(output_file);
+  int closed = fclose(input_file);
+  error_assert((closed == 0), "Failed to close the input file");
+
+  closed = fclose(output_file);
+  error_assert((closed == 0), "Failed to close the output file");
+
   return 0;
 }

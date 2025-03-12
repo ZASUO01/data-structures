@@ -13,7 +13,7 @@ typedef struct Node {
 
 Node *insert_node(Node *node, char type, const char *word, const char *meaning);
 Node *delete_not_empty(Node *node);
-void print_tree(Node *node);
+void fprint_tree(Node *node, FILE *file);
 void delete_tree(Node **node);
 
 #endif

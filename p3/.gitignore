@@ -1,5 +1,9 @@
+# folders
 bin
 obj
 output
+images
 
+# local config files
 .clangd
+pyrightconfig.json
