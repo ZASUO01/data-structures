@@ -63,10 +63,6 @@ binary heap.
 
 Below are the complexities of the operations performed by the structures described:
 
-Aqui está a tabela formatada para um `README.md` usando Markdown:  
-
-```md
-## Comparação de Complexidades: Árvore de Busca Balanceada vs. Heap Binário
 
 | Operation | AVL Tree | Binary Heap |
 |-----------------------------------|----------------------------------|-----------------------------|
