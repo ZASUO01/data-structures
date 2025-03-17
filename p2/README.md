@@ -1,99 +1,116 @@
-# TP2 - Algoritmos de Ordenação
-## Objetivo
+# Project - Sorting Algorithms
 
-Este trabalho consiste em analisar o desempenho de diferentes algoritmos de ordenação em
-diferentes cenários, descritos a seguir. Esta análise consiste em comparar os algoritmos
-considerando três métricas de desempenho: número de comparações de chaves, o número de
-cópias de registros realizadas, e o tempo total gasto para ordenação (tempo de processamento e
-não o tempo de relógio). As entradas são conjuntos de elementos com chaves aleatoriamente
-geradas.
+Sorting algorithms performance comparison.
 
-## Descrição
+## Objective
 
-Deve-se comparar o desempenho de diferentes variações do Quicksort para
-ordenar um conjunto de N registros armazenados em um vetor. Essas variações devem ainda ser compradas 
-com o Heapsort e Mergesort.
-Cada registro contém:
+This work consists of analyzing the performance of different sorting algorithms 
+in different scenarios, described below. This analysis consists of comparing 
+the algorithms considering three performance metrics: number of key comparisons, 
+the number of record copies performed, and the total time spent for sorting 
+(processing time and not clock time). The inputs are sets of elements with 
+randomly generated keys.
 
- - Um inteiro, que é a chave para ordenação
- - Quinze cadeias de caracteres (strings), cada uma com 200 caracteres
- - 10 números reais
+## Description
 
-As variações do Quicksort a serem implementadas e avaliadas são:
-- Quicksort Recursivo.
-- Quicksort Mediana(k): esta variação do Quicksort recursivo escolhe o pivô para partição
-como sendo a mediana de k elementos do vetor, aleatoriamente escolhidos.
-- Quicksort Seleção(m): esta variação modifica o Quicksort Recursivo para utilizar o
-algoritmo de Seleção para ordenar partições com tamanho menor ou igual a m.
-- Quicksort Iterativo: esta variação escolhe o pivô como o elemento do meio (como
-apresentado em sala de aula), mas não é recursiva, utilizando uma pilha para armazenar
-partições a serem processadas posteriormente. 
-- Quicksort Empilha Inteligente: esta variação do Quicksort processa primeiro a menor
-partição.
+The performance of different variations of Quicksort should be compared for 
+sorting a set of N records stored in a vector. These variations should also be 
+compared with Heapsort and Mergesort. Each record contains: 
 
-## Análise de Complexidade
-Segue uma comparação teórica do desempenho desses algorítmos.
+- An integer, which is the key for sorting
+- Fifteen strings, each with 200 characters
+- 10 real numbers
 
-| Algoritmo     | Melhor Caso | Caso Médio  | Pior Caso   | Espaço Auxiliar | Estável? |
+
+The Quicksort variations to be implemented and evaluated are:
+- Recursive Quicksort.
+- Median(k) Quicksort: this variation of Recursive Quicksort chooses the pivot for 
+partition as the median of k randomly chosen elements of the vector.
+- Selection(m) Quicksort: this variation modifies Recursive Quicksort to use the 
+Selection algorithm to sort partitions with size less than or equal to m.
+- Iterative Quicksort: this variation chooses the pivot as the middle element 
+but is not recursive, using a stack to store partitions to be processed later.
+- Smart Stack Quicksort: this variation of Iterative Quicksort processes the smallest partition first.
+
+## Input
+
+Each algorithm should be applied to random inputs with different sizes 
+N = 1000, 5000, 10000, 50000, 100000, 500000 and 1000000. 
+The average values of 5 runs should be counted.
+
+## Complexity
+Below is a theoretical comparison of the performance of these algorithms.
+
+
+| Algorithm | Best Case | Average Case  | Worst Case| Extra Space | Stable? |
 |--------------|------------|------------|------------|---------------|---------|
 | **Heap Sort**  | O(n log n) | O(n log n) | O(n log n) | O(1) | Não |
 | **Merge Sort** | O(n log n) | O(n log n) | O(n log n) | O(n) | Sim |
 | **Quick Sort** | O(n log n) | O(n log n) | O(n²) | O(log n) | Não |
 
 - Heap Sort
--- Usa uma heap para organizar os elementos.
--- Apresenta complexidade constante O(n log n) em todos os casos.
--- Não necessita de espaço extra.
--- Não é estável e chaves iguais podem ser trocadas de posição.
+  - Uses a heap to organize the elements.
+  - Has constant complexity O(n log n) in all cases.
+  - Does not require extra space.
+  - It's not stable and equal keys can be swapped.
 
-- Merge Sort
--- Utiliza o paradigma de divisão e consquista.
--- Garante sempre a complexidade O(n log n).
--- Requer O(n) espaço adicional na fusão das sublistas.
--- É estavél.
- 
-- Quick Sort
--- Escolhe um pivô e particiona o array.
--- No melhor e caso médio apresenta O(n log n) de complexidade.
--- No pior caso da escolha de um pivô ruim, a complexidade piora para O(n²).
--- O espaço adicional gasto na recursão é em media O(log n). A versão iterativa elimina esse gasto.
--- Não é estável.
+- Merge sort
+  - Uses the divide and conquer strategy.
+  - Always guarantees complexity O(n log n).
+  - Requests O(n) additional space when merging sublists.
+  - It's stable.
 
-## Avaliação Experimental
+- Quick sort
+  - Chooses a pivot and partitions the array.
+  - In the best and average case, it has O(n log n) complexity.
+  - In the worst case, if a bad pivot is chosen, the complexity worsens to O(n²).
+  - The additional space spent on recursion is on average O(log n). The iterative version eliminates this waste.
+  - It's not stable.
 
-Cada algoritmo deve ser aplicado a entradas aleatórias com diferentes
-tamanhos N = 1000, 5000, 10000, 50000, 100000, 500000 e 1000000.
-Os valores médios de 5 execuções foram contabilizados.
 
-# Execução
+## Data Visualization
 
-Para executar cada algorítmo deve-se rodar:
+Below are graphs showing the data obtained from the tests.
+On the left side are the quick sort variations comparisons and on
+the right side are the comparisons between the best quick sort variation 
+and the other sorting algorithms described.
 
+
+<p align="center">
+    <img src="assets/comparisons_qs.png" alt="comparisons qs" width="45%"/>
+    <img src="assets/comparisons.png" alt="comparisons" width="45%"/>
+</p>
+<p align="center">
+    <img src="assets/copies_qs.png" alt="copies qs" width="45%"/>
+    <img src="assets/copies.png" alt="copies" width="45%"/>
+</p>
+<p align="center">
+    <img src="assets/time_qs.png" alt="time qs" width="45%"/>
+    <img src="assets/time.png" alt="time" width="45%"/>
+</p>
+
+Considering the metrics described, the best quick sort variation is that one which 
+uses selection sort for short partitions. The partition of size 10 is also better than the size 100
+
+Considering the metrics described, the best quick sort variation is that one which 
+uses selection sort for short partitions. The tested partition size 10 is also 
+better than the size 100. This variation is also better than the other algorithms.
+
+## Program Execution
+
+- Compile the program.
 ```sh
-# compilar o programa
 make
-
-# executar os casos de teste
-make quick_sort
-make merge_sort
-make heap_sort
-
 ```
-
-Exemplo de execução:
+- Execute test cases.
 ```sh
-# program [algname] -v version -s seed -k optional -m optional -i input -o output  
-./bin/main quicksort -v 1 -s 10 -i input.txt -o output.txt
+make alg
 ```
-
-Para analise visual dos dados:
+- Plot Graphs.
 ```sh
-# gerar graficos
 make plot
 ```
-Para limpar o projeto para uma nova execução:
+- Clean the project for another execution
 ```sh
 make clean
-make clean_plot
 ```
-
