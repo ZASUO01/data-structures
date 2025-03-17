@@ -90,14 +90,11 @@ and the other sorting algorithms described.
 </p>
 
 Considering the metrics described, the best quick sort variation is that one which 
-uses selection sort for short partitions. The partition of size 10 is also better than the size 100
-
-Considering the metrics described, the best quick sort variation is that one which 
 uses selection sort for short partitions. The tested partition size 10 is also 
 better than the size 100. This variation is also better than the other algorithms.
+better than the size 100
 
 ## Program Execution
-
 - Compile the program.
 ```sh
 make
