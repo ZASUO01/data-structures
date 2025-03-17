@@ -1,0 +1,7 @@
+# folders
+bin
+obj
+output
+
+# config files
+.clangd
