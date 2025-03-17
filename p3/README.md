@@ -1,5 +1,6 @@
 # Project 3 - Dictionary
 
+Different implementations of a words dictionary.
 ## Objective
 
 The objective of this work was to design, code, and evaluate different 
