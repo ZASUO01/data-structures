@@ -1,6 +1,5 @@
 # Data Structures
-Experimental projects involving data structures. Complexity, performance, memory access
-and other analysis.
+Projects done for the UFMG data structures class 
 
 ## [P1 - Mail Server](/p1)
 A simple simulation of a mail server using a balanced tree and a heap priority queue.
